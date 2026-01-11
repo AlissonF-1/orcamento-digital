@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Orçamento Inteligente | Alisson Flaynn</title>
+    <meta name="description" content="Simule o investimento do seu novo site profissional em segundos. Ferramenta desenvolvida por Alisson Flaynn.">
+    <meta name="author" content="Alisson Flaynn">
+    <meta property="og:title" content="Quanto custa seu novo site? Descubra agora.">
+    <meta property="og:description" content="Simulação interativa de orçamento para Landing Pages de alta conversão. Por Alisson Flaynn.">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .option-card:checked + div {
+            border-color: #2563EB;
+            background-color: #EFF6FF;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1), 0 2px 4px -1px rgba(37, 99, 235, 0.06);
+        }
+        .option-card:checked + div::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #2563EB;
+            font-weight: bold;
+        }
+        .transition-all { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Loader Animation */
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-10">
+
+    <div class="max-w-6xl mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 space-y-8">
+            
+            <header class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full uppercase tracking-wide">Disponibilidade</span>
+                    <span class="text-sm text-slate-500">Agenda aberta para novos projetos</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Monte seu Projeto</h1>
+                <p class="text-slate-600 mt-2 text-lg">Selecione o que precisa e tenha previsão de investimento em tempo real.</p>
+                <p class="text-sm text-blue-600 mt-1 font-medium">Desenvolvido por Alisson Flaynn</p>
+            </header>
+
+            <form id="pricingForm" class="space-y-8" onsubmit="event.preventDefault();">
+                
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 ring-1 ring-slate-100">
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-lg shadow-blue-200">
+                            ★
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Pacote Base Profissional</h3>
+                                <span class="bg-blue-100 text-blue-700 font-bold px-3 py-1 rounded text-sm">Incluso</span>
+                            </div>
+                            <p class="text-slate-600 text-sm mb-4">Estrutura essencial para um site de alta performance.</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm text-slate-700">
+                                <li class="flex items-center gap-2">✓ Site Responsivo (Mobile/PC)</li>
+                                <li class="flex items-center gap-2">✓ Configuração de Hospedagem</li>
+                                <li class="flex items-center gap-2">✓ Formulário de Contato</li>
+                                <li class="flex items-center gap-2">✓ Certificado SSL (Segurança)</li>
+                                <li class="flex items-center gap-2">✓ Botão WhatsApp</li>
+                                <li class="flex items-center gap-2">✓ Otimização Inicial SEO</li>
+                            </ul>
+                            <p class="text-lg font-bold text-blue-600 mt-4 border-t pt-3">Valor Base: R$ 1.200,00</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-blue-600">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">1. Dados de Contato</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nome Completo *</label>
+                            <input type="text" name="name" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: João Silva">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">WhatsApp *</label>
+                            <input type="tel" name="whatsapp" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="(00) 00000-0000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email *</label>
+                            <input type="email" name="email" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="joao@email.com">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nome da Empresa</label>
+                            <input type="text" name="company_name" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ex: JS Consultoria">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Instagram ou Site Atual</label>
+                            <input type="text" name="instagram_link" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="@seuinstagram">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">2. Nível de Design</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <label class="cursor-pointer group relative block h-full">
+                            <input type="radio" name="design" value="0" class="peer sr-only option-card" checked>
+                            <div class="p-4 border-2 border-slate-200 rounded-lg hover:border-blue-300 transition-all h-full">
+                                <h3 class="font-bold text-slate-900">Design Otimizado</h3>
+                                <p class="text-sm text-slate-500 mt-1">Uso templates profissionais validados para conversão.</p>
+                                <span class="text-xs font-semibold text-slate-500 mt-2 block">Incluso no base</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer group relative block h-full">
+                            <input type="radio" name="design" value="800" class="peer sr-only option-card">
+                            <div class="p-4 border-2 border-slate-200 rounded-lg hover:border-blue-300 transition-all h-full">
+                                <h3 class="font-bold text-slate-900">Design Exclusivo (Figma)</h3>
+                                <p class="text-sm text-slate-500 mt-1">Criado do zero, exclusivo para sua marca, antes de programar.</p>
+                                <span class="text-xs font-semibold text-blue-600 mt-2 block">+ R$ 800,00</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">3. Conteúdo (Textos)</h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                            <input type="radio" name="copy" value="0" class="w-5 h-5 text-blue-600" checked>
+                            <div class="ml-3">
+                                <span class="block font-medium">Já tenho os textos</span>
+                                <span class="block text-xs text-slate-500">Envio o arquivo Word, você coloca no site.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                            <input type="radio" name="copy" value="400" class="w-5 h-5 text-blue-600">
+                            <div class="ml-3">
+                                <span class="block font-medium">Revisão Estratégica (+ R$ 400)</span>
+                                <span class="block text-xs text-slate-500">Você envia, eu ajusto gatilhos mentais para vender mais.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all">
+                            <input type="radio" name="copy" value="1000" class="w-5 h-5 text-blue-600">
+                            <div class="ml-3">
+                                <span class="block font-medium">Criação Completa de Copy (+ R$ 1.000)</span>
+                                <span class="block text-xs text-slate-500">Entrevisto você e escrevo toda a carta de vendas.</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">4. Turbinar Projeto</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all select-none">
+                            <input type="checkbox" name="addons" value="350" class="w-5 h-5 text-blue-600 mt-1 rounded">
+                            <div class="ml-3">
+                                <span class="block font-medium">Pixel + Rastreamento</span>
+                                <span class="block text-xs text-slate-500">Instalação Google/Facebook Ads (+ R$ 350)</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all select-none">
+                            <input type="checkbox" name="addons" value="500" class="w-5 h-5 text-blue-600 mt-1 rounded">
+                            <div class="ml-3">
+                                <span class="block font-medium">Integração CRM/Email</span>
+                                <span class="block text-xs text-slate-500">ActiveCampaign, RD, Mailchimp (+ R$ 500)</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition-all select-none">
+                            <input type="checkbox" name="addons" value="250" class="w-5 h-5 text-blue-600 mt-1 rounded">
+                            <div class="ml-3">
+                                <span class="block font-medium">SEO Técnico Avançado</span>
+                                <span class="block text-xs text-slate-500">Otimização máxima de velocidade (+ R$ 250)</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-bold text-slate-900 mb-2">5. Sobre o Negócio</h2>
+                    <p class="text-slate-600 text-sm mb-3">Resuma brevemente o que sua empresa faz ou qual seu objetivo principal.</p>
+                    <textarea name="project_details" class="w-full p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none h-32" placeholder="Ex: Sou contador e quero captar mais clientes para Imposto de Renda..."></textarea>
+                </section>
+
+                <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                     <h2 class="text-lg font-bold text-slate-900 mb-4">6. Prazo e Pagamento</h2>
+                     <div class="flex flex-wrap gap-4 mb-6">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="urgency" value="1" class="w-5 h-5 text-blue-600" checked>
+                            <span class="text-slate-700">Padrão (7-10 dias úteis)</span>
+                        </label>
+                         <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="urgency" value="1.3" class="w-5 h-5 text-blue-600">
+                            <span class="text-slate-700 font-semibold text-orange-600">Urgente (3-4 dias) +30%</span>
+                        </label>
+                    </div>
+
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <p class="text-sm font-semibold mb-2 text-green-800">Forma de Pagamento:</p>
+                        <label class="flex items-center cursor-pointer mb-2">
+                            <input type="radio" name="payment" value="0.9" class="w-5 h-5 text-green-600" checked>
+                            <div class="ml-2">
+                                <span class="font-bold text-green-700">À Vista (Pix) - 10% de Desconto</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" name="payment" value="1" class="w-5 h-5 text-green-600">
+                            <div class="ml-2">
+                                <span class="text-slate-700">Cartão de Crédito (Sem desconto)</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+            </form>
+            
+            <footer class="text-center text-slate-400 text-sm mt-12 border-t border-slate-200 pt-8">
+                <p>&copy; 2026 Desenvolvido estrategicamente por <strong class="text-slate-600">Alisson Flaynn</strong>.</p>
+                <p class="mt-1">Especialista em Desenvolvimento Web de Alta Performance.</p>
+            </footer>
+
+        </div>
+
+        <div class="lg:col-span-1">
+            <div class="sticky top-6 bg-slate-900 text-white p-6 rounded-xl shadow-xl flex flex-col">
+                <h3 class="text-xl font-bold mb-6 border-b border-slate-700 pb-4">Resumo do Investimento</h3>
+                
+                <ul id="summaryList" class="space-y-3 text-sm text-slate-300 mb-6 flex-1">
+                    </ul>
+
+                <div class="border-t border-slate-700 pt-4 mb-6">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="text-slate-400 text-sm">Investimento Total</span>
+                        <span id="totalDisplay" class="text-3xl font-bold text-green-400">R$ 0,00</span>
+                    </div>
+                    <p id="savingsDisplay" class="text-right text-xs text-green-300 hidden">Você economizou: R$ 0,00</p>
+                </div>
+
+                <button id="submitBtn" type="button" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg transition-all transform active:scale-95 shadow-lg shadow-blue-900/50 flex items-center justify-center gap-2 group">
+                    <span>Solicitar Proposta Oficial</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+                
+                <p class="text-xs text-center text-slate-500 mt-4">Ao clicar, você receberá uma confirmação no WhatsApp/Email. Sem compromisso.</p>
+            </div>
+            
+            <div class="mt-6 bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center gap-3">
+                <div class="flex -space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
+                    <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-white"></div>
+                    <div class="w-8 h-8 rounded-full bg-gray-500 border-2 border-white"></div>
+                </div>
+                <p class="text-xs text-slate-600">Junte-se a outros profissionais que modernizaram seus negócios este mês.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('pricingForm');
+            const summaryList = document.getElementById('summaryList');
+            const totalDisplay = document.getElementById('totalDisplay');
+            const savingsDisplay = document.getElementById('savingsDisplay');
+            const submitBtn = document.getElementById('submitBtn');
+
+            const EMAIL_DESTINO = "alissonflaynn2@gmail.com"; 
+            const ENDPOINT = `https://formsubmit.co/ajax/${EMAIL_DESTINO}`;
+            const BASE_PRICE = 1200;
+
+            const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            function calculateTotal() {
+                let total = BASE_PRICE;
+                let summaryHTML = `<li class="flex justify-between border-b border-slate-700 pb-2 mb-2"><span class="font-bold text-white">Pacote Base</span> <span>${currencyFormatter.format(BASE_PRICE)}</span></li>`;
+                let itemsList = [`Pacote Base: ${currencyFormatter.format(BASE_PRICE)}`];
+
+                // Design
+                const designOption = form.querySelector('input[name="design"]:checked');
+                if (designOption && parseFloat(designOption.value) > 0) {
+                    const val = parseFloat(designOption.value);
+                    total += val;
+                    const label = designOption.parentElement.querySelector('h3').innerText;
+                    summaryHTML += `<li class="flex justify-between"><span>${label}</span> <span>+ ${currencyFormatter.format(val)}</span></li>`;
+                    itemsList.push(`${label}: ${currencyFormatter.format(val)}`);
+                }
+
+                // Copy
+                const copyOption = form.querySelector('input[name="copy"]:checked');
+                if (copyOption && parseFloat(copyOption.value) > 0) {
+                    const val = parseFloat(copyOption.value);
+                    total += val;
+                    const label = copyOption.parentElement.querySelector('.font-medium').innerText.split('(')[0];
+                    summaryHTML += `<li class="flex justify-between"><span>${label}</span> <span>+ ${currencyFormatter.format(val)}</span></li>`;
+                    itemsList.push(`Copywriting (${label}): ${currencyFormatter.format(val)}`);
+                }
+
+                // Addons
+                const addons = form.querySelectorAll('input[name="addons"]:checked');
+                addons.forEach(addon => {
+                    const val = parseFloat(addon.value);
+                    total += val;
+                    const label = addon.parentElement.querySelector('.font-medium').innerText;
+                    summaryHTML += `<li class="flex justify-between"><span>${label}</span> <span>+ ${currencyFormatter.format(val)}</span></li>`;
+                    itemsList.push(`Addon (${label}): ${currencyFormatter.format(val)}`);
+                });
+
+                // Urgência
+                const urgencyOption = form.querySelector('input[name="urgency"]:checked');
+                if (urgencyOption && parseFloat(urgencyOption.value) > 1) {
+                    const multiplier = parseFloat(urgencyOption.value);
+                    const oldTotal = total;
+                    total = total * multiplier;
+                    const diff = total - oldTotal;
+                    summaryHTML += `<li class="flex justify-between text-orange-400"><span>Taxa de Urgência (+30%)</span> <span>+ ${currencyFormatter.format(diff)}</span></li>`;
+                    itemsList.push(`Taxa Urgência: ${currencyFormatter.format(diff)}`);
+                }
+
+                // Pagamento
+                const paymentOption = form.querySelector('input[name="payment"]:checked');
+                let discountAmount = 0;
+                if (paymentOption && parseFloat(paymentOption.value) < 1) {
+                    const multiplier = parseFloat(paymentOption.value);
+                    const subtotal = total;
+                    total = total * multiplier;
+                    discountAmount = subtotal - total;
+                    summaryHTML += `<li class="flex justify-between text-green-400 border-t border-slate-700 pt-2 mt-2"><span>Desconto Pix (10%)</span> <span>- ${currencyFormatter.format(discountAmount)}</span></li>`;
+                    itemsList.push(`Desconto Pix: -${currencyFormatter.format(discountAmount)}`);
+                }
+
+                summaryList.innerHTML = summaryHTML;
+                totalDisplay.innerText = currencyFormatter.format(total);
+                
+                if(discountAmount > 0) {
+                    savingsDisplay.innerText = `Você economizou: ${currencyFormatter.format(discountAmount)}`;
+                    savingsDisplay.classList.remove('hidden');
+                } else {
+                    savingsDisplay.classList.add('hidden');
+                }
+
+                return { total: currencyFormatter.format(total), items: itemsList.join('\n') };
+            }
+
+            async function handleSubmission() {
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('ring-2', 'ring-red-500');
+                    } else {
+                        field.classList.remove('ring-2', 'ring-red-500');
+                    }
+                });
+
+                if (!isValid) {
+                    Toastify({
+                        text: "Preencha seus dados de contato para receber o orçamento.",
+                        duration: 3000,
+                        style: { background: "#EF4444" },
+                        gravity: "bottom" 
+                    }).showToast();
+                    return;
+                }
+
+                const calculationData = calculateTotal();
+                const formData = new FormData(form);
+                
+                formData.append("_subject", `💰 Novo Lead: ${calculationData.total} - ${formData.get('name')}`);
+                formData.append("_template", "table");
+                formData.append("_captcha", "false"); 
+                formData.append("RESUMO_DO_PROJETO", calculationData.items);
+                formData.append("VALOR_FINAL", calculationData.total);
+
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="loader mr-2"></span> Processando...';
+                
+                try {
+                    const response = await fetch(ENDPOINT, {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        Toastify({
+                            text: "Recebido! Entrarei em contato em breve.",
+                            duration: 5000,
+                            style: { background: "#10B981" },
+                            gravity: "bottom"
+                        }).showToast();
+                        
+                        submitBtn.innerHTML = "Solicitação Enviada ✓";
+                        submitBtn.classList.replace('bg-blue-600', 'bg-green-600');
+                        
+                    } else {
+                        throw new Error('Erro no servidor');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    Toastify({
+                        text: "Erro de conexão. Me chame no WhatsApp direto.",
+                        duration: 4000,
+                        style: { background: "#EF4444" }
+                    }).showToast();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            }
+
+            form.addEventListener('change', calculateTotal);
+            submitBtn.addEventListener('click', handleSubmission);
+            calculateTotal();
+        });
+    </script>
+</body>
+</html>
